@@ -1,0 +1,1 @@
+When initializing server, mlabCredntials.js will be missing since it contains my mlab databse credentials and thus it's not included in this repo. Please create one if you need to run the app.
