@@ -1,5 +1,6 @@
 // graphql is a package
 const graphql = require('graphql')
+const _ = require('lodash')
 
 /* example query
 book{
@@ -12,14 +13,49 @@ book(id:"123"){
 }
 */
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema }  = graphql; 
+// static data for testing
+const books = [
+    {name: "Book number 1", genre:"Fantasy", id:"1", authorId:'1'},
+    {name: "Book number 2", genre: "Fantasy", id:"2", authorId:"2"},
+    {name:"The Long Earth", genre:"Sci-Fi", id:"3", authorId:"3"}
+]
+
+const authors = [
+    {name: "Patrick Rothfuss", age: 44, id:"1"},
+    {name: "Brandon Sanderson", age: 42, id:"2"},
+    {name: "Terry Pratchett", age: 66, id:"3"}
+]
+
+
+const { GraphQLObjectType,
+     GraphQLString, 
+     GraphQLSchema,
+     GraphQLID,
+     GraphQLInt
+    }  = graphql; 
 
 const BookType = new GraphQLObjectType({
     name: "Book", 
     fields: () =>({ // use function for order?
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
-        genre: { type : GraphQLString }
+        genre: { type : GraphQLString },
+        author: {
+            type:AuthorType,
+            resolve(parent, args){
+                console.log(parent)
+                return _.find(authors, {id: parent.id})
+            }
+        }
+    })
+})
+
+const AuthorType = new GraphQLObjectType({
+    name:"Author",
+    fields:()=>({
+        id: {type: GraphQLID},
+        name:{type: GraphQLString},
+        age: {type: GraphQLInt}
     })
 })
 
@@ -28,11 +64,18 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         book: {
             type: BookType,
-            args: { id: { type: GraphQLString }},
+            args: { id: { type: GraphQLID }},
             resolve(parent, args){
+                console.log("root ",parent)
                 let bookId = args.id;
-                // to write code to get data from db/other sources
-
+                return _.find(books, {id: bookId})
+            }
+        },
+        author:{
+            type: AuthorType, 
+            args: {id : {type: GraphQLID}},
+            resolve(parent, args){
+                return _.find(authors, {id: args.id})
             }
         }
     }

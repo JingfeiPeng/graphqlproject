@@ -6,7 +6,8 @@ const app = express();
 
 // need to pass in schema in graphqlHTTP
 app.use("/graphql", graphqlHTTP({
-    schema
+    schema,
+    graphiql: true // use graphical tool
 })) 
 
 app.listen(4000, ()=>{
