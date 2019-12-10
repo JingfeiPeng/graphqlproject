@@ -1,2 +1,3 @@
 /server/node_modules/*
 /server/mlabCredentials.js
+/react-frontend-app/node_modules/*
