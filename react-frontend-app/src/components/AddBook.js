@@ -15,15 +15,18 @@ const getAuthorsQuery = gql`
 const AddBook = () => {
     const {loading, error, data} = useQuery(getAuthorsQuery)
 
-    const displayBooks = () =>{
-        let books = data.books;
-        return books.map(book =>(
-            <li key={book.id}>{book.name}</li>
+    const displayAuthors = () =>{
+        if (loading) return <option>Loading Authors...</option>
+        
+        let authors = data.authors;
+        return authors.map(author => (
+            <option key={author.id} value={author.id}>
+                {author.name}
+            </option>
         ))
     }
     
-    // if (loading) return <p>Loading...</p>
-    // if (error) return <p>Error: can't connect</p>
+    if (error) return <p>Error: can't connect</p>
 
     return (
         <form id="add-book">
@@ -38,10 +41,10 @@ const AddBook = () => {
             <div className="field">
                 <label>Author:</label>
                 <select>
-                    <option>1</option>
-                    <option>2</option>
+                    {displayAuthors()}
                 </select>
             </div>
+            <button>Add Book</button>
         </form>
     );
 }
