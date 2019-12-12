@@ -35,13 +35,13 @@ book(id:"123"){
 
 
 const { GraphQLObjectType,
-     GraphQLString, 
-     GraphQLSchema,
-     GraphQLID,
-     GraphQLInt,
-     GraphQLList,
-     GraphQLNonNull
-    }  = graphql; 
+    GraphQLString, 
+    GraphQLSchema,
+    GraphQLID,
+    GraphQLInt,
+    GraphQLList,
+    GraphQLNonNull
+}  = graphql; 
 
 const BookType = new GraphQLObjectType({
     name: "Book", 
