@@ -5,12 +5,12 @@ The recipe will be
 
 interface Recipe {
     name: String,
-    author: Author,
+    Chef: Chef,
     Ingredients: Ingredient[],
     instructions:Instruction[]
 }
 
-interface Author {
+interface Chef {
     name:string,
     recipes: Recipe[]
 }
